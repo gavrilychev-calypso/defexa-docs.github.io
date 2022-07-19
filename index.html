@@ -1907,7 +1907,7 @@ curl <span class="nt">--location</span> <span class="nt">--request</span> POST <
   "nonce": 0,
   "request": {
     "amount": 0,
-    "expiration": null,
+    "expiration": "2022-07-19T08:30Z",
     "currency": "BTC",
     "description": "string",
     "type": "SINGLE",
@@ -6489,19 +6489,19 @@ curl <span class="nt">--location</span> <span class="nt">--request</span> POST <
 <td>maxRatio</td>
 <td>NUMBER</td>
 <td>Yes</td>
-<td>Represents a fast maximum transaction fee, calculated from unconfirmed transactions.</td>
+<td>Represents a max ratio by which the transaction fee can be multiplied in order to precalculate max possible transaction fee.</td>
 </tr>
 <tr>
 <td>minRatio</td>
 <td>NUMBER</td>
 <td>Yes</td>
-<td>Represents the slow minimum transaction fee, calculated from unconfirmed transactions.</td>
+<td>Represents a min ratio by which the transaction fee can be multiplied in order to precalculate min possible transaction fee.</td>
 </tr>
 <tr>
 <td>transactionFee</td>
 <td>NUMBER</td>
 <td>Yes</td>
-<td>Represents the standard maximum fee per gas, calculated from unconfirmed transactions.</td>
+<td>Represents a medium transaction fee which can be multiplied by ratio in order to precalculate possible transaction fee.</td>
 </tr>
 </tbody></table>
 <h2 id='get-specific-crypto-to-fiat-payout'>Get Specific Crypto-to-fiat Payout</h2>
@@ -9746,7 +9746,7 @@ curl <span class="nt">--location</span> <span class="nt">--request</span> DELETE
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"errorCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"000"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Internal server problem. Please contact our support."</span><span class="w">
+    </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Internal server error"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>The Defexa API uses the following error codes:</p>
@@ -9755,63 +9755,83 @@ curl <span class="nt">--location</span> <span class="nt">--request</span> DELETE
 <tr>
 <th>errorCode</th>
 <th>Message</th>
+<th>Comment</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>000</td>
-<td>Internal server problem. Please contact our support.</td>
+<td>Internal server error</td>
+<td>Error on system side. Please contact the support.</td>
 </tr>
 <tr>
 <td>001</td>
-<td>Request is invalid</td>
+<td>Bad request</td>
+<td>Incorrect input data.</td>
 </tr>
 <tr>
 <td>002</td>
-<td>Incorrect sign</td>
+<td>Invalid api key</td>
+<td>Invalid public api key in request.</td>
 </tr>
 <tr>
 <td>003</td>
-<td>Incorrect invoice type for withdrawal. Must be Unlimited</td>
+<td>Wrong sign</td>
+<td>Sign transmitted in request is built incorrectly.</td>
 </tr>
 <tr>
 <td>004</td>
-<td>Invoice is in incorrect state for operation</td>
-</tr>
-<tr>
-<td>005</td>
-<td>Not enough funds in the selected unlimited invoice to create a withdrawal</td>
+<td>Wallet with this address {address} does not exist</td>
+<td>Error occurs when non-existent wallet address transmitted in request</td>
 </tr>
 <tr>
 <td>006</td>
-<td>Not enough funds in the selected wallet to create a payout</td>
-</tr>
-<tr>
-<td>007</td>
-<td>Fee ratio of currency is not in range of min and max fee ratio</td>
-</tr>
-<tr>
-<td>008</td>
-<td>Wallet doesn&#39;t belong to user company</td>
+<td>Invoice is in incorrect state for operation</td>
+<td></td>
 </tr>
 <tr>
 <td>009</td>
-<td>Api key error. The provided API key is invalid.</td>
+<td>Fee ratio of currency is not in range of min and max fee ratio</td>
+<td></td>
 </tr>
 <tr>
 <td>010</td>
-<td>Requested object is not found</td>
+<td>Wallet doesn&#39;t belong to user company</td>
+<td></td>
 </tr>
 <tr>
 <td>011</td>
-<td>Missing {parameterName} parameter</td>
+<td>Invalid nonce parameter. Nonce value must be greater than previous one</td>
+<td></td>
 </tr>
 <tr>
 <td>012</td>
-<td>Invalid {parameterName} parameter</td>
+<td>Invalid Payout state</td>
+<td></td>
 </tr>
 <tr>
-<td>013</td>
-<td>Invalid nonce parameter. Nonce value must be greater than previous one</td>
+<td>014</td>
+<td>Invalid hot wallet currency</td>
+<td></td>
+</tr>
+<tr>
+<td>015</td>
+<td>Currency does not match wallet blockchain</td>
+<td></td>
+</tr>
+<tr>
+<td>016</td>
+<td>IdempotencyKey {idemmpotencyKeyUUID} already exists</td>
+<td>In the payout creation request already used uuid for idempotency key is transmitted</td>
+</tr>
+<tr>
+<td>016</td>
+<td>Can not create deal. Validation failed</td>
+<td>Validation error in payout creation. One or more request parameters were not validated</td>
+</tr>
+<tr>
+<td>028</td>
+<td>Can not create invoice payment for invoice 134. Allow only for UNLIMITED invoices</td>
+<td>Error occures when in the request &quot;create withdrawal from unlimited invoice&quot; invoice of incorrect type is transmitted</td>
 </tr>
 </tbody></table>
 
